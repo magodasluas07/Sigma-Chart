@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Radar chart configurável para bases de dados do Notion." />
+    <title>Sigma Chart · Notion Radar</title>
+    <link rel="stylesheet" href="./src/styles.css" />
+    <script type="module" src="./src/main.js"></script>
+  </head>
+  <body>
+    <main class="app-shell" aria-label="Configurador de radar chart para Notion">
+      <section class="builder-card">
+        <aside class="settings-panel" aria-labelledby="settings-title">
+          <div class="brand-row">
+            <span class="brand-mark">Σ</span>
+            <div>
+              <p class="eyebrow">Sigma Chart</p>
+              <h1 id="settings-title">Radar chart</h1>
+            </div>
+          </div>
+
+          <p class="panel-copy">
+            Configure como no Notion2Charts/ChartBase: escolha a base, a linha do Notion, o campo de rótulo e os campos numéricos que viram os eixos do radar.
+          </p>
+
+          <form id="chart-config-form" class="config-form">
+            <label>
+              <span>Base de dados</span>
+              <select id="database-select" name="database"></select>
+            </label>
+
+            <label>
+              <span>Registro / página</span>
+              <select id="row-select" name="row"></select>
+            </label>
+
+            <label>
+              <span>Campo de título</span>
+              <select id="label-property-select" name="labelProperty"></select>
+            </label>
+
+            <fieldset>
+              <legend>Campos do radar</legend>
+              <div id="metric-checkboxes" class="metric-grid"></div>
+            </fieldset>
+
+            <div class="inline-fields">
+              <label>
+                <span>Valor máximo</span>
+                <input id="max-value-input" min="1" name="maxValue" type="number" value="10" />
+              </label>
+
+              <label>
+                <span>Tema</span>
+                <select id="theme-select" name="theme">
+                  <option value="light">Notion claro</option>
+                  <option value="dark">Notion escuro</option>
+                </select>
+              </label>
+            </div>
+
+            <label>
+              <span>URL de embed</span>
+              <output id="embed-url" class="embed-output"></output>
+            </label>
+          </form>
+        </aside>
+
+        <section class="preview-panel" aria-labelledby="chart-heading">
+          <div class="preview-toolbar">
+            <div>
+              <p class="eyebrow">Preview do embed</p>
+              <h2 id="chart-heading"></h2>
+            </div>
+            <span class="sync-pill">Database sync ready</span>
+          </div>
+
+          <article class="chart-card" id="chart-card">
+            <header class="chart-header">
+              <div>
+                <p class="chart-kicker" id="chart-source"></p>
+                <h3 id="chart-title"></h3>
+              </div>
+              <p class="chart-total" id="chart-total"></p>
+            </header>
+
+            <div class="chart-panel">
+              <svg id="radar-chart" viewBox="0 0 560 430" role="img" aria-labelledby="svg-title svg-desc">
+                <title id="svg-title">Radar chart configurado por base de dados</title>
+                <desc id="svg-desc">Gráfico radar gerado a partir de campos numéricos de uma linha de base de dados.</desc>
+                <defs>
+                  <filter id="soft-glow" x="-40%" y="-40%" width="180%" height="180%">
+                    <feGaussianBlur stdDeviation="3" result="coloredBlur" />
+                    <feMerge>
+                      <feMergeNode in="coloredBlur" />
+                      <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                  </filter>
+                  <linearGradient id="radar-fill" x1="0" x2="1" y1="0" y2="1">
+                    <stop offset="0%" stop-color="#6c47ff" stop-opacity="0.34" />
+                    <stop offset="100%" stop-color="#00c2ff" stop-opacity="0.2" />
+                  </linearGradient>
+                </defs>
+                <g id="radar-grid"></g>
+                <polygon id="radar-polygon" fill="url(#radar-fill)" stroke="var(--accent)" stroke-width="3" filter="url(#soft-glow)"></polygon>
+                <g id="radar-points"></g>
+                <g id="radar-labels"></g>
+              </svg>
+            </div>
+
+            <ul class="metric-list" id="metric-list" aria-label="Valores do radar"></ul>
+          </article>
+        </section>
+      </section>
+    </main>
+  </body>
+</html>
